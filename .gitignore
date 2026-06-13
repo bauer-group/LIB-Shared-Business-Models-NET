@@ -1,0 +1,272 @@
+# =============================================================================
+# BAUER GROUP Shared Business Framework — GIT Ignore Configuration
+# =============================================================================
+# Modelled on the sister Plattform repo's .gitignore — adapted for the
+# server-side Business framework (CefSharp / Stimulsoft sections removed).
+# Reference: https://git-scm.com/docs/gitignore
+#
+# Design intent: rely on the BROAD [Bb]in/ + [Oo]bj/ patterns to catch
+# build output. Do NOT add standalone [Dd]ebug/ / [Rr]elease/ patterns —
+# those silently match unrelated folders like .github/config/release/
+# which holds the semantic-release plugin chain (debugged 2026-05-19).
+# =============================================================================
+
+# =============================================================================
+# BUILD OUTPUT
+# =============================================================================
+# Compiled binaries and build artifacts
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# MSBuild output directories
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Oo]ut/
+# Note: NO standalone [Bb]uild/ pattern — we have a real build/ folder
+# at repo root holding the SNK signing key and build/README.md. The
+# [Bb]in/ + [Oo]bj/ patterns already catch all build output.
+
+# Centralized artifacts/ (BaseOutputPath in Directory.Build.props)
+artifacts/
+
+# =============================================================================
+# VISUAL STUDIO
+# =============================================================================
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+.vs/**/DesignTimeBuild/
+.vs/**/ContentModel/
+.vs/**/.userprefs
+*.ide/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Visual Studio trace files
+*.e2e
+
+# Publish profiles (may contain sensitive deployment info)
+PublishScripts/
+*.pubxml
+!**/PublishProfiles/[Ff]older[Pp]rofile.pubxml
+
+# =============================================================================
+# VISUAL STUDIO CODE
+# =============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# =============================================================================
+# JETBRAINS RIDER / INTELLIJ
+# =============================================================================
+.idea/
+*.sln.iml
+
+# =============================================================================
+# CLAUDE
+# =============================================================================
+.claude/
+
+# =============================================================================
+# NUGET PACKAGES
+# =============================================================================
+# NuGet packages directory (restored during build)
+[Pp]ackages/
+*.nupkg
+*.snupkg
+
+# NuGet package cache
+project.lock.json
+project.fragment.lock.json
+
+# NuGet config files (may contain private feed credentials)
+# Uncomment if you use private feeds with credentials in nuget.config
+# nuget.config
+
+# =============================================================================
+# .NET SPECIFIC
+# =============================================================================
+# Global packages folder
+!.packages/
+
+# Tool manifest
+# .config/dotnet-tools.json
+
+# Generated files
+*.AssemblyInfo.cs
+*.GeneratedMSBuildEditorConfig.editorconfig
+
+# Publish output
+publish/
+
+# =============================================================================
+# TEST RESULTS
+# =============================================================================
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coveragexml
+coverage*/
+*.coverage
+TestResult.xml
+
+# NCover
+_NCover*/
+
+# Coverlet
+coverage.json
+coverage.opencover.xml
+coverage.cobertura.xml
+
+# =============================================================================
+# CODE ANALYSIS
+# =============================================================================
+# StyleCop
+StyleCopReport.xml
+
+# CodeAnalysis
+*.CodeAnalysisLog.xml
+*.lastcodeanalysissucceeded
+
+# Static analyzer reports
+.sarif/
+*.sarif
+
+# =============================================================================
+# RESHARPER
+# =============================================================================
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# =============================================================================
+# SECRETS & SENSITIVE DATA
+# =============================================================================
+# Local environment files
+*.local
+*.local.json
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Application secrets
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+
+# Certificate files
+*.pfx
+*.p12
+*.cer
+
+# Strong-name keys — NEVER commit any SNK to the repository. The build/
+# BAUERGROUP.Shared.snk lives only locally (developer machines) or in CI
+# (materialized from the DOTNET_SIGNKEY_BASE64 GitHub secret at build time).
+# No exceptions, no negation rules. A strong-name key in a public repo
+# undermines assembly-identity trust for every downstream consumer that
+# strong-name-links against our assemblies.
+*.snk
+*.pfx
+*.p12
+*.cer
+*.key
+
+# =============================================================================
+# TEMPORARY FILES
+# =============================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# Misc temp / backup
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*~.nib
+
+# =============================================================================
+# LOGS & DEBUG FILES
+# =============================================================================
+*.log
+*.log.*
+nlog-*.log
+npm-debug.log*
+
+# Minidump files
+*.dmp
+*.mdmp
+
+# =============================================================================
+# DATABASE FILES
+# =============================================================================
+# SQL Server
+*.mdf
+*.ldf
+*.ndf
+
+# SQLite
+*.db
+*.db3
+*.sqlite
+*.sqlite3
+
+# LiteDB (used via Plattform.Data)
+*.litedb
+
+# =============================================================================
+# DOCUMENTATION GENERATION
+# =============================================================================
+# DocFX
+_site/
+docfx.log
+
+# =============================================================================
+# NODE / SEMANTIC-RELEASE LOCAL DEPS
+# =============================================================================
+# semantic-release pulls its plugin chain into node_modules locally too
+node_modules/
+
+# =============================================================================
+# PROJECT-SPECIFIC
+# =============================================================================
+# Local configuration overrides
+local.settings.json
+
+# Benchmark results
+BenchmarkDotNet.Artifacts/
+
+# =============================================================================
+# END OF FILE
+# =============================================================================

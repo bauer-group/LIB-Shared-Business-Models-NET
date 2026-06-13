@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
+    <PackageId>BAUERGROUP.Shared.Business.Models</PackageId>
+    <Description>Foundation types for the BAUER GROUP Shared Business framework: marker interfaces IBusiness / IBusinessObject and abstract base classes Business / BusinessObject with stable identity (UID) and change timestamp. Pure POCO surface; no external runtime dependencies beyond the .NET BCL.</Description>
+  </PropertyGroup>
+
+</Project>

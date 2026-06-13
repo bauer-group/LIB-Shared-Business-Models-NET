@@ -1,0 +1,62 @@
+<Solution>
+  <Folder Name="/Solution/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="BannedSymbols.txt" />
+    <File Path="CHANGELOG.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution/Documentation/">
+    <File Path="docs/ARCHITECTURE.md" />
+    <File Path="docs/BUILD.md" />
+    <File Path="docs/MIGRATION.md" />
+    <File Path="docs/VERSIONING.md" />
+  </Folder>
+  <Folder Name="/Sources/">
+    <Project Path="src/BAUERGROUP.Shared.Business.Models/BAUERGROUP.Shared.Business.Models.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Common/BAUERGROUP.Shared.Business.Common.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Common.Validation/BAUERGROUP.Shared.Business.Common.Validation.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Client/BAUERGROUP.Shared.Business.Client.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Discovery/BAUERGROUP.Shared.Business.Discovery.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Embedded/BAUERGROUP.Shared.Business.Storage.Embedded.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Authentication/BAUERGROUP.Shared.Business.Authentication.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Authentication.Server/BAUERGROUP.Shared.Business.Authentication.Server.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.CRUD/BAUERGROUP.Shared.Business.CRUD.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.CRUD.Server/BAUERGROUP.Shared.Business.CRUD.Server.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Messaging/BAUERGROUP.Shared.Business.Messaging.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Messaging.MessageBus/BAUERGROUP.Shared.Business.Messaging.MessageBus.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Messaging.MQTT/BAUERGROUP.Shared.Business.Messaging.MQTT.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage/BAUERGROUP.Shared.Business.Storage.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Mongo/BAUERGROUP.Shared.Business.Storage.Mongo.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Redis/BAUERGROUP.Shared.Business.Storage.Redis.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Influx/BAUERGROUP.Shared.Business.Storage.Influx.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Search.Elasticsearch/BAUERGROUP.Shared.Business.Storage.Search.Elasticsearch.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.Search.Meilisearch/BAUERGROUP.Shared.Business.Storage.Search.Meilisearch.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.WebDAV/BAUERGROUP.Shared.Business.Storage.WebDAV.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Storage.S3/BAUERGROUP.Shared.Business.Storage.S3.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Common/BAUERGROUP.Shared.Business.Server.Common.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Extensions/BAUERGROUP.Shared.Business.Server.Extensions.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Discovery/BAUERGROUP.Shared.Business.Server.Discovery.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Telemetry/BAUERGROUP.Shared.Business.Server.Telemetry.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Plugin.SystemStatus/BAUERGROUP.Shared.Business.Plugin.SystemStatus.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Plugin.MobileSynchronisedData/BAUERGROUP.Shared.Business.Plugin.MobileSynchronisedData.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Plugin.Demo.Products/BAUERGROUP.Shared.Business.Plugin.Demo.Products.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Plugin.Demo.Products.Server/BAUERGROUP.Shared.Business.Plugin.Demo.Products.Server.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Service/BAUERGROUP.Shared.Business.Server.Service.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Web/BAUERGROUP.Shared.Business.Server.Web.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Discovery.Service/BAUERGROUP.Shared.Business.Server.Discovery.Service.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Server.Telemetry.Service/BAUERGROUP.Shared.Business.Server.Telemetry.Service.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/BAUERGROUP.Shared.Business.UnitTests/BAUERGROUP.Shared.Business.UnitTests.csproj" />
+    <Project Path="tests/BAUERGROUP.Shared.Business.IntegrationTests/BAUERGROUP.Shared.Business.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/Clients/">
+    <Project Path="clients/BAUERGROUP.Shared.Business.TestUi/BAUERGROUP.Shared.Business.TestUi.csproj" />
+  </Folder>
+</Solution>

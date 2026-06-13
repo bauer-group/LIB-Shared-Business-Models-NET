@@ -1,0 +1,29 @@
+# Banned API list, enforced by Microsoft.CodeAnalysis.BannedApiAnalyzers.
+# Format: T:Type / M:Member / F:Field / E:Event / P:Property / N:Namespace,
+# optionally followed by ';' and a one-line replacement hint.
+#
+# Rationale: security and correctness on internet-exposed services. The
+# Business framework runs as ASP.NET Core hosts that consumers may expose
+# to the public internet — the banned APIs below cause subtle bugs or
+# vulnerabilities in that context.
+
+# Insecure randomness — never use for tokens, secrets, IDs.
+T:System.Random; use System.Security.Cryptography.RandomNumberGenerator for secrets / tokens / IDs.
+
+# Local clock vs UTC — observability and audit logs require monotonic UTC.
+P:System.DateTime.Now; use TimeProvider / DateTimeOffset.UtcNow for timestamps.
+P:System.DateTimeOffset.Now; use TimeProvider / DateTimeOffset.UtcNow.
+
+# Blocking IO / sync over async — destroys ASP.NET Core scalability.
+P:System.Threading.Tasks.Task`1.Result; await the task instead of blocking.
+M:System.Threading.Tasks.Task.Wait(); await the task instead of blocking.
+M:System.Threading.Tasks.Task.Wait(System.Int32); await with a CancellationToken-bound timeout instead.
+M:System.Threading.Thread.Sleep(System.Int32); use Task.Delay with CancellationToken.
+
+# Console output bypasses ILogger and structured logging — only allowed in Program.Main.
+M:System.Console.WriteLine(System.String); use ILogger<T>; do not write to stdout from libraries.
+
+# Process.Start launching shell commands is a frequent injection-vector. Use ProcessStartInfo
+# with arguments list and UseShellExecute=false instead.
+M:System.Diagnostics.Process.Start(System.String); use ProcessStartInfo with arguments and UseShellExecute=false.
+M:System.Diagnostics.Process.Start(System.String,System.String); use ProcessStartInfo with arguments and UseShellExecute=false.

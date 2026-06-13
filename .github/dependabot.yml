@@ -1,0 +1,68 @@
+# =============================================================================
+# Dependabot Configuration
+# =============================================================================
+# Weekly automatic dependency updates for NuGet packages and GitHub Actions.
+# Commit prefixes follow the BG commit standards (deps(dotnet), chore(ci)).
+# =============================================================================
+
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:30"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps(dotnet)"
+    labels:
+      - "dependencies"
+      - "nuget"
+    groups:
+      microsoft:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+      servicestack:
+        patterns:
+          - "ServiceStack*"
+      messaging:
+        patterns:
+          - "MQTTnet*"
+          - "RabbitMQ.Client*"
+      storage:
+        patterns:
+          - "MongoDB.*"
+          - "InfluxDB.*"
+          - "StackExchange.Redis*"
+      auth:
+        patterns:
+          - "Microsoft.IdentityModel.*"
+          - "System.IdentityModel.*"
+      testing:
+        patterns:
+          - "xunit*"
+          - "FluentAssertions*"
+          - "coverlet*"
+          - "Moq*"
+          - "Testcontainers*"
+      bauergroup:
+        patterns:
+          - "BAUERGROUP.*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:30"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "dependabot"

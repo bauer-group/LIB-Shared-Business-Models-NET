@@ -1,0 +1,142 @@
+<Project>
+  <!-- ============================================================
+       BAUER GROUP — Shared Business Framework
+       Repository-wide MSBuild defaults. Auto-imported by every csproj.
+
+       Strategic pivot (2026-05-19): dropped ServiceStack as the
+       HTTP/service framework — the current framework runs on pure ASP.NET Core 10 LTS
+       + FastEndpoints (DTO-Pattern). The legacy framework's
+       architectural patterns (plugin system, service discovery,
+       user/role/permission model, observable embedded DBs, multi-host
+       topology) are PRESERVED — see docs/MIGRATION.md.
+       ============================================================ -->
+  <PropertyGroup Label="Identity">
+    <Authors>BAUER GROUP Development Team</Authors>
+    <Company>BAUER GROUP</Company>
+    <Copyright>Copyright © 2006 - $([System.DateTime]::UtcNow.ToString("yyyy")) BAUER GROUP</Copyright>
+    <Product>BAUER GROUP Shared Business Framework</Product>
+    <Description>Enterprise business framework for BAUER GROUP. Cross-platform service hosting (ASP.NET Core 10 + FastEndpoints), plugin system, modern authentication (JWT/OIDC/Bearer/Passkeys), service discovery, telemetry, pluggable messaging (MassTransit/RabbitMQ + MQTTnet) and storage (MongoDB/InfluxDB/Redis-FusionCache + Elastic/OpenSearch/Meilisearch) abstractions.</Description>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageTags>bauer-group;enterprise;business;services;plugin-system;servicediscovery;telemetry;fastendpoints;aspnetcore;dotnet</PackageTags>
+    <Version>2.5.0</Version>
+  </PropertyGroup>
+  <PropertyGroup Label="Versioning">
+    <!-- semantic-release-dotnet rewrites <Version> above on every release.
+         AssemblyVersion / FileVersion must strip any pre-release SemVer suffix
+         (CS7034: major[.minor[.build[.revision]]] only). InformationalVersion
+         keeps the full SemVer + build timestamp. -->
+    <AssemblyVersion>$(Version.Split('-')[0]).0</AssemblyVersion>
+    <FileVersion>$(Version.Split('-')[0]).0</FileVersion>
+    <InformationalVersion>$(Version)+$([System.DateTime]::UtcNow.ToString("yyyyMMdd"))</InformationalVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="LanguageRules">
+    <!--
+      Target Frameworks set per-project — driven by what the package needs:
+      - Pure-managed libraries (Models, Common, Discovery, Messaging,
+        Messaging.MessageBus, Messaging.MQTT, Storage, Storage.Mongo,
+        Storage.Influx, Storage.Redis, Storage.Embedded,
+        Storage.Search.Elasticsearch, Storage.Search.Meilisearch,
+        Storage.WebDAV, Client, Authentication) target: net10.0;net8.0;netstandard2.0
+      - Common.Validation (FluentValidation 12 dropped netstandard2.0)
+        target: net10.0;net8.0
+      - Authentication.Server (ASP.NET Core dependency: OpenIddict + JwtBearer + Fido2)
+        target: net10.0;net8.0
+      - ASP.NET Core hosts + server framework (Server.Common, Server.Extensions,
+        Server.Discovery, Server.Telemetry, Plugin.*, Server.Service, Server.Web,
+        Server.*.Service host EXEs) target: net10.0;net8.0
+      - Test UI (WPF): net10.0-windows;net8.0-windows
+    -->
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors/>
+    <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      Global NoWarn:
+        CS1573, CS1574, CS1591 — XML doc completeness; not all internals require docs
+        CA1716 — reserved-name flags on legacy domain types (User, Role, Group etc.)
+        CA1859 — interface-vs-concrete return type; we intentionally expose interfaces
+        IDE0011 — single-line if without braces; compact guard clauses allowed
+        IDE0040 — explicit access modifier on interface members; public is implicit
+        NETSDK1206 — multi-target packaging warning
+
+        CA1848 (LoggerMessage delegates) is ENFORCED globally: the per-request hot path
+        uses a source-generated logger. Low-frequency bootstrap / lifecycle / error logs
+        opt out with a file-level "#pragma warning disable CA1848" + justification.
+    -->
+    <NoWarn>$(NoWarn);CS1573;CS1574;CS1591;CA1510;CA1711;CA1716;CA1720;CA1725;CA1859;CA1873;IDE0011;IDE0040;NETSDK1206;RCS1194</NoWarn>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Label="Output">
+    <!-- Centralized artifacts/ directory replaces per-project bin/ + obj/.
+         Modern .NET 8+ pattern; CI artifact upload becomes a single path. -->
+    <BaseOutputPath>$(MSBuildThisFileDirectory)artifacts/bin/$(MSBuildProjectName)/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)artifacts/obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts/packages/</PackageOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Label="Packaging">
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Business-NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <PropertyGroup Label="Signing">
+    <!-- Assembly signing is conditional: build/BAUERGROUP.Shared.snk must exist locally
+         or be materialized from the DOTNET_SIGNKEY_BASE64 secret in CI. -->
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build\BAUERGROUP.Shared.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly Condition="Exists('$(AssemblyOriginatorKeyFile)')">true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Label="SourceLink">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <ItemGroup Label="SourceLink">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
+  </ItemGroup>
+  <!-- Polyfills for netstandard2.0 — PolySharp generates source for modern C# language features. -->
+  <ItemGroup>
+    <PackageReference Include="PolySharp" PrivateAssets="All">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <!-- Analyzers — repository-wide quality enforcement. -->
+  <ItemGroup Label="Analyzers">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="All">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="All">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <!-- Shared assets — packed into every NuGet emitted from this repo. -->
+  <ItemGroup Condition="Exists('$(MSBuildThisFileDirectory)assets\ApplicationIcon.png')">
+    <None Include="$(MSBuildThisFileDirectory)assets\ApplicationIcon.png" Pack="true" PackagePath="\" Link="ApplicationIcon.png" Visible="false"/>
+  </ItemGroup>
+  <ItemGroup Condition="Exists('$(MSBuildThisFileDirectory)README.md')">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false"/>
+  </ItemGroup>
+  <PropertyGroup Condition="Exists('$(MSBuildThisFileDirectory)assets\ApplicationIcon.png')">
+    <PackageIcon>ApplicationIcon.png</PackageIcon>
+  </PropertyGroup>
+  <!-- BannedApiAnalyzers consumes BannedSymbols.txt from the repo root. -->
+  <ItemGroup Condition="Exists('$(MSBuildThisFileDirectory)BannedSymbols.txt')">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt"/>
+  </ItemGroup>
+</Project>

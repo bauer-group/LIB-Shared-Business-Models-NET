@@ -1,0 +1,4 @@
+# CODEOWNERS — default review assignment.
+# Pattern syntax matches .gitignore-style globs.
+
+*   @karlspace
