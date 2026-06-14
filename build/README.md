@@ -6,7 +6,7 @@ Strong-name signing is **conditional** — it activates only if `build/BAUERGROU
 
 ### Local development
 
-If you want signed local builds, drop your SNK file at `build/BAUERGROUP.Shared.snk`. The file is ignored by git via the `*.snk` rule in `.gitignore`, with an exception for this exact path — so committing the key is intentional (matches the [sister Plattform repo](https://github.com/bauer-group/LIB-Shared-Plattform-NET) which publishes its key publicly).
+If you want signed local builds, drop your SNK file at `build/BAUERGROUP.Shared.snk`. The file is git-ignored by the `*.snk` rule in `.gitignore` and must **never** be committed — it stays only on developer machines locally, and CI materializes it from a secret at build time (see below). A build without the key still succeeds; the assemblies are simply unsigned.
 
 Generate a new key with:
 
