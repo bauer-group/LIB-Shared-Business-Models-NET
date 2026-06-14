@@ -3,11 +3,26 @@
   <PropertyGroup>
     <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
     <PackageId>BAUERGROUP.Shared.Business.Models.DMS</PackageId>
-    <Description>DMS (document management) domain POCO models for the BAUER GROUP Shared Business framework. Multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
+    <Description>DMS (document management) domain POCO models for the BAUER GROUP Shared Business framework: documents and versions, renditions (incl. PDF/A), filing structures and index/filing masks, full-text/OCR, GoBD retention and records management, access control, document links and electronic signatures. A subsidiary system of the ERP model — it reuses the ERP attachment/link/custom-field types as shared base classes. Multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
+  </PropertyGroup>
+
+  <!-- DMS is a subsidiary system of the ERP ("Nebensystem"): it builds on the ERP
+       domain model and reuses ERPAttachment / ERPObjectLink / ERPCustomField / ERPCodeName
+       as shared base types instead of duplicating them. Because it extends those
+       (nullable-oblivious, legacy-migrated) ERP types and follows the same POCO/DTO idiom
+       (mutable List<T> properties, byte[] payloads, ctor initialises every field), it adopts
+       the same relaxed analyzer profile as ERP so the family stays uniform; genuine compile
+       errors still fail. -->
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+    <AnalysisLevel>latest-default</AnalysisLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BAUERGROUP.Shared.Business.Models\BAUERGROUP.Shared.Business.Models.csproj" />
+    <ProjectReference Include="..\BAUERGROUP.Shared.Business.Models.ERP\BAUERGROUP.Shared.Business.Models.ERP.csproj" />
   </ItemGroup>
 
 </Project>
