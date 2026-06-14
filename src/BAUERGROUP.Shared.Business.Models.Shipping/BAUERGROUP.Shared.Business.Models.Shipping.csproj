@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
+    <PackageId>BAUERGROUP.Shared.Business.Models.Shipping</PackageId>
+    <Description>Shipping domain POCO models for the BAUER GROUP Shared Business framework: parcels, addresses, customs, carrier products/services, shipping documents and status. Multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
+  </PropertyGroup>
+
+  <!-- Migrated verbatim from the legacy BAUERGROUP.Shared.Shipping (netstandard2.0) package.
+       Analysis is relaxed here so the legacy surface compiles as-is: nullable off, analysis
+       dialed from latest-recommended down to latest-default, and analyzer/style findings kept
+       as non-fatal warnings (genuine compile errors still fail). Intentional domain names like
+       the FreightCarriers enum members (UPS_Worldship, DPD_DelisPrint) must not be renamed —
+       that would break the public API. Hardening is a deliberate later pass, matching the
+       repo's gradual-adoption stance (see .editorconfig). -->
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+    <AnalysisLevel>latest-default</AnalysisLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- IndependentImage (raw-bytes + format detection) lives in BAUERGROUP.Shared.Core.Images. -->
+    <PackageReference Include="BAUERGROUP.Shared.Core" />
+  </ItemGroup>
+
+</Project>

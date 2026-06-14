@@ -80,6 +80,12 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- Package API validation: with no published baseline yet it runs the
+         "compatible-framework" check — verifying that the netstandard2.0 / net8 / net10
+         legs of each multi-targeted package expose a consistent public API surface.
+         Add PackageValidationBaselineVersion per-package after the first release to also
+         gate against accidental breaking changes between versions. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
   <PropertyGroup Label="Signing">
     <!-- Assembly signing is conditional: build/BAUERGROUP.Shared.snk must exist locally

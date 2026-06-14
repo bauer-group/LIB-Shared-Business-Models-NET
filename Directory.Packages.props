@@ -6,10 +6,12 @@
        enabled so indirect deps cannot drift independently.
        Ref: https://learn.microsoft.com/nuget/consume-packages/central-package-management
 
-       This is a dependency-free POCO repo: the only packages are the
-       build/analyzer toolchain (PrivateAssets="All", never flow to
-       consumers) and the test stack. The models themselves ship with
-       zero runtime NuGet dependencies.
+       Layering: the BASE package (BAUERGROUP.Shared.Business.Models)
+       ships ZERO runtime dependencies. The domain satellites
+       (Shipping/ERP/CRM/DMS) MAY layer on BAUERGROUP.Shared.Core for
+       shared primitives (e.g. IndependentImage). Everything else here
+       is the build/analyzer toolchain (PrivateAssets="All", never flows
+       to consumers) and the test stack.
        ============================================================ -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
@@ -22,19 +24,25 @@
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
-    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.300" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.301" />
     <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
 
+  <ItemGroup Label="BAUER GROUP Shared Plattform (sister framework via NuGet, consumed by domain satellites)">
+    <!-- Foundational primitives (IndependentImage, etc.). The base Business.Models package
+         does NOT reference this; only the domain satellites (Shipping/ERP/...) may. -->
+    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="[3.0.0,4.0.0)" />
+  </ItemGroup>
+
   <ItemGroup Label="Testing (test projects arrive in step 2)">
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <!-- FluentAssertions >= 8.0 has a commercial license (Xceed). 7.2.0 is the last
          Apache-2.0 version; AwesomeAssertions (community fork) is drop-in-compatible. -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.0" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <!-- Architecture tests — enforces the model dependency DAG once the satellite
          packages land (e.g. ERP -> Models + Shipping) and keeps the models POCO-pure. -->
     <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />

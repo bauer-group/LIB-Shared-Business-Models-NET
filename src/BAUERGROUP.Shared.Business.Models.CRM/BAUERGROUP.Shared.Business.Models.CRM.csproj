@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
+    <PackageId>BAUERGROUP.Shared.Business.Models.CRM</PackageId>
+    <Description>CRM domain POCO models for the BAUER GROUP Shared Business framework. Multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BAUERGROUP.Shared.Business.Models\BAUERGROUP.Shared.Business.Models.csproj" />
+  </ItemGroup>
+
+</Project>
