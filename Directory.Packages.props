@@ -32,7 +32,7 @@
   <ItemGroup Label="BAUER GROUP Shared Plattform (sister framework via NuGet, consumed by domain satellites)">
     <!-- Foundational primitives (IndependentImage, etc.). The base Business.Models package
          does NOT reference this; only the domain satellites (Shipping/ERP/...) may. -->
-    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="[3.0.0,4.0.0)" />
+    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="[3.0.4, 4.0.0)" />
   </ItemGroup>
 
   <ItemGroup Label="Testing (test projects arrive in step 2)">
