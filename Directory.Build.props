@@ -25,7 +25,7 @@
     <Version>2.0.0</Version>
   </PropertyGroup>
   <PropertyGroup Label="Versioning">
-    <!-- semantic-release-dotnet rewrites <Version> above on every release.
+    <!-- semantic-release-dotnet rewrites the Version element above on every release.
          AssemblyVersion / FileVersion must strip any pre-release SemVer suffix
          (CS7034: major[.minor[.build[.revision]]] only). InformationalVersion
          keeps the full SemVer + build timestamp. -->
