@@ -2,65 +2,67 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Dependency-free **POCO domain models** for the BAUER GROUP Shared Business
-ecosystem. This package is the foundation every other Business library builds
-on — it ships marker interfaces and abstract base classes with **zero runtime
-NuGet dependencies** beyond the .NET BCL.
-
-## Target frameworks
-
-`net10.0` · `net8.0` · `netstandard2.0`
+Cross-platform **POCO domain models** for the BAUER GROUP Shared Business
+ecosystem. A dependency-free base package plus a family of domain satellites,
+all multi-targeted for **`net10.0` · `net8.0` · `netstandard2.0`**.
 
 The `netstandard2.0` leg keeps the models consumable from .NET Framework 4.6.2+,
-Unity, Xamarin and other legacy hosts. Modern C# language features (`init`
+Unity, Xamarin and other legacy hosts; modern C# language features (`init`
 accessors, `required` members) are backfilled there via
 [PolySharp](https://github.com/Sergio0694/PolySharp).
 
-## What's in the base package
+## Packages
 
-| Type | Kind | Purpose |
+| Package | Purpose | Dependencies |
 | --- | --- | --- |
-| `IBusiness` | interface | Marker for any business type in the framework. |
-| `IBusinessObject` | interface | `IBusiness` + stable `UID` identity and a `Changed` timestamp. |
-| `Business` | abstract class | Base for business types that need no identity. |
-| `BusinessObject` | abstract class | Base with auto-generated `UID` (`Guid`) and UTC `Changed` stamp. |
+| `BAUERGROUP.Shared.Business.Models` | Base: `IBusiness` / `IBusinessObject`, `Business` / `BusinessObject` (stable `UID` + `Changed`) | **none** |
+| `BAUERGROUP.Shared.Business.Models.Shipping` | Parcels, addresses, customs, carriers, shipping documents | Core |
+| `BAUERGROUP.Shared.Business.Models.ERP` | Business associates, documents, products, prices, taxes, stock | Models · Shipping · Core |
+| `BAUERGROUP.Shared.Business.Models.CRM` | CRM domain models *(greenfield)* | Models |
+| `BAUERGROUP.Shared.Business.Models.DMS` | Document-management models *(greenfield)* | Models |
+
+> The **base** package is strictly **0-dependency**. Domain satellites may layer
+> on [`BAUERGROUP.Shared.Core`](https://github.com/bauer-group/LIB-Shared-Plattform-NET)
+> for shared primitives (e.g. `IndependentImage`).
+
+## Quick start
 
 ```csharp
 using BAUERGROUP.Shared.Business.Models;
 
 public sealed class Customer : BusinessObject
 {
+    public Customer() { }                       // UID auto-generated
+    public Customer(Guid gUID) : base(gUID) { } // re-hydrate with a known identity
+
     public required string Name { get; init; }
 }
 
 var c = new Customer { Name = "Contoso" };
-// c.UID     -> a fresh Guid, init-only
+// c.UID     -> a fresh Guid (init-only); pass an explicit one via the ctor or initializer
 // c.Changed -> DateTime.UtcNow at construction, mutable on update
 ```
 
-## Package family
+### Deep clone
 
-This repository hosts the base package plus a set of domain-specific model
-satellites that build on it:
+Models are deep-cloned via the `BAUERGROUP.Shared.Core` JSON helper:
 
-| Package | Depends on |
-| --- | --- |
-| `BAUERGROUP.Shared.Business.Models` | *(base — this package)* |
-| `BAUERGROUP.Shared.Business.Models.Shipping` | Models |
-| `BAUERGROUP.Shared.Business.Models.ERP` | Models + Shipping |
-| `BAUERGROUP.Shared.Business.Models.CRM` | Models |
-| `BAUERGROUP.Shared.Business.Models.DMS` | Models |
+```csharp
+using BAUERGROUP.Shared.Core.Extensions;
 
-## Building
-
-```bash
-dotnet build BAUERGROUP.Shared.Business.Models.slnx -c Release
-dotnet pack  BAUERGROUP.Shared.Business.Models.slnx -c Release
+var copy = original.Clone();   // safe System.Text.Json deep copy
 ```
 
-Build output (bin/obj/packages) is centralized under `artifacts/`. Releases and
-NuGet publishing are automated via conventional commits and semantic-release —
-see [`.github/workflows/dotnet-release.yml`](.github/workflows/dotnet-release.yml).
+> Cloning/serialization requires the type to round-trip through `System.Text.Json`
+> (a public parameterless constructor or `[JsonConstructor]`). A few legacy ERP
+> value types don't yet — see [docs/MIGRATION.md](docs/MIGRATION.md).
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) — package family, dependency DAG, identity & cloning
+- [Migration guide](docs/MIGRATION.md) — moving from the legacy `BAUERGROUP.Shared.*` packages
+- [Build](docs/BUILD.md) — building, testing, packing
+- [Versioning](docs/VERSIONING.md) — semantic-release & conventional commits
 
 ## License
 
