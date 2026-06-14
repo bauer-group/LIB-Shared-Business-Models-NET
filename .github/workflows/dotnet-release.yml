@@ -94,7 +94,7 @@ jobs:
       release-version: ${{ needs.release.outputs.version }}
       run-tests: false
       sign-assembly: true
-      push-to-nuget: false
+      push-to-nuget: true
       push-to-github: true
       nuget-auth-method: "api-key"
       include-symbols: true
