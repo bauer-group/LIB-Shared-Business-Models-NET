@@ -1,9 +1,5 @@
-﻿using BAUERGROUP.Shared.Business.Models.Shipping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System;
+using BAUERGROUP.Shared.Business.Models.Shipping;
 using BAUERGROUP.Shared.Core.Extensions;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions

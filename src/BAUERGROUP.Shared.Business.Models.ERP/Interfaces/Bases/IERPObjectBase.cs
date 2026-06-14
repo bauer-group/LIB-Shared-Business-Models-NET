@@ -1,5 +1,4 @@
-﻿using BAUERGROUP.Shared.Business.Models;
-using System;
+﻿using System;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Bases.Interfaces.Bases
 {

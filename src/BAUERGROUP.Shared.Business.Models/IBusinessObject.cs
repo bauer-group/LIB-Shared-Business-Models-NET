@@ -1,3 +1,5 @@
+using System;
+
 namespace BAUERGROUP.Shared.Business.Models;
 
 /// <summary>

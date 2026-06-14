@@ -1,9 +1,6 @@
-﻿using BAUERGROUP.Shared.Business.Models.ERP.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using BAUERGROUP.Shared.Business.Models.ERP.Extensions;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP
 {

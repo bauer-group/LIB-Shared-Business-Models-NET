@@ -1,5 +1,5 @@
-﻿using BAUERGROUP.Shared.Core.Images;
-using System;
+﻿using System;
+using BAUERGROUP.Shared.Core.Images;
 
 namespace BAUERGROUP.Shared.Business.Models.Shipping
 {

@@ -1,8 +1,5 @@
-﻿using BAUERGROUP.Shared.Business.Models.ERP.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using BAUERGROUP.Shared.Business.Models.ERP.Exceptions;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
 {

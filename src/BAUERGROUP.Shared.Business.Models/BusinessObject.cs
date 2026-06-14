@@ -1,3 +1,5 @@
+using System;
+
 namespace BAUERGROUP.Shared.Business.Models;
 
 /// <summary>
@@ -7,11 +9,12 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// </summary>
 /// <remarks>
 /// <para>
-/// On construction <see cref="UID"/> is initialised with a freshly generated
+/// By default <see cref="UID"/> is initialised with a freshly generated
 /// <see cref="Guid.NewGuid"/>, and <see cref="Changed"/> is stamped with the
-/// current UTC time. Derived types should not override this construction-time
-/// behaviour — the persistence layer is responsible for setting
-/// <see cref="UID"/> via deserialiser-init when re-hydrating from storage.
+/// current UTC time. To re-hydrate a known entity, set <see cref="UID"/> via the
+/// object initializer (it is <c>init</c>-only) or call the
+/// <see cref="BusinessObject(Guid)"/> constructor — the persistence layer
+/// supplies the identity when loading from storage.
 /// </para>
 /// <para>
 /// <see cref="Changed"/> is mutable on purpose so callers can update it at the
@@ -20,6 +23,28 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// </remarks>
 public abstract class BusinessObject : Business, IBusinessObject
 {
+    /// <summary>
+    /// Initialises a new instance with an auto-generated <see cref="UID"/> and a
+    /// <see cref="Changed"/> timestamp of the current UTC time.
+    /// </summary>
+    protected BusinessObject()
+    {
+    }
+
+    /// <summary>
+    /// Initialises a new instance with an explicit <see cref="UID"/> — typically
+    /// when re-hydrating a known entity from storage. <see cref="Guid.Empty"/>
+    /// falls back to the auto-generated identity.
+    /// </summary>
+    /// <param name="gUID">The stable identity to assign, or <see cref="Guid.Empty"/> to auto-generate.</param>
+    protected BusinessObject(Guid gUID)
+    {
+        if (gUID != Guid.Empty)
+        {
+            UID = gUID;
+        }
+    }
+
     /// <inheritdoc />
     public Guid UID { get; init; } = Guid.NewGuid();
 

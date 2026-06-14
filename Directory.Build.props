@@ -3,16 +3,16 @@
        BAUER GROUP — Shared Business Models
        Repository-wide MSBuild defaults. Auto-imported by every csproj.
 
-       Scope: pure POCO domain models. No runtime dependencies beyond
-       the .NET BCL — no ASP.NET Core, no storage/messaging/auth stacks.
-       This repo is the dependency-free foundation other BAUER GROUP
-       Business libraries build on:
+       Scope: POCO domain models — no ASP.NET Core, no storage/messaging/auth
+       stacks. The base package is strictly dependency-free; the domain
+       satellites may layer on BAUERGROUP.Shared.Core for shared primitives
+       (see docs/ARCHITECTURE.md). The package family:
 
-         BAUERGROUP.Shared.Business.Models           (base — this package)
-         BAUERGROUP.Shared.Business.Models.Shipping
-         BAUERGROUP.Shared.Business.Models.ERP       (-> Models + Shipping)
-         BAUERGROUP.Shared.Business.Models.CRM
-         BAUERGROUP.Shared.Business.Models.DMS
+         BAUERGROUP.Shared.Business.Models           (base — 0 deps)
+         BAUERGROUP.Shared.Business.Models.Shipping  (-> Core)
+         BAUERGROUP.Shared.Business.Models.ERP       (-> Models + Shipping + Core)
+         BAUERGROUP.Shared.Business.Models.CRM       (-> Models)
+         BAUERGROUP.Shared.Business.Models.DMS       (-> Models)
        ============================================================ -->
   <PropertyGroup Label="Identity">
     <Authors>BAUER GROUP Development Team</Authors>
@@ -58,11 +58,14 @@
         CA1716 — the "Shared" segment of every BAUERGROUP.Shared.* namespace
                  collides with the VB.NET 'Shared' keyword; this naming
                  convention is fixed company-wide and will not change
+        CA1720 — the domain models use Hungarian notation on constructor
+                 parameters/locals (sName, eType, gUID …); the type-letter
+                 prefixes intentionally embed type names, which this rule forbids
         IDE0011 — single-line if without braces; compact guard clauses allowed
         IDE0040 — explicit access modifier on interface members; public is implicit
         NETSDK1206 — multi-target packaging warning
     -->
-    <NoWarn>$(NoWarn);CS1573;CS1574;CS1591;CA1716;IDE0011;IDE0040;NETSDK1206</NoWarn>
+    <NoWarn>$(NoWarn);CS1573;CS1574;CS1591;CA1716;CA1720;IDE0011;IDE0040;NETSDK1206</NoWarn>
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>

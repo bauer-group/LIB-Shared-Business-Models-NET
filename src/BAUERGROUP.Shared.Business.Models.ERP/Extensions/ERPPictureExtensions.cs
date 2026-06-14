@@ -1,8 +1,5 @@
-﻿using BAUERGROUP.Shared.Core.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System;
+using BAUERGROUP.Shared.Core.Extensions;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
 {

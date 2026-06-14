@@ -1,18 +1,18 @@
-﻿using BAUERGROUP.Shared.Business.Models;
+﻿using System;
 using BAUERGROUP.Shared.Business.Models.ERP.Bases.Interfaces.Bases;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Bases
 {
     public class ERPObjectBase : BusinessObject, IERPObjectBase, IBusinessObject, IBusiness
     {
-        public ERPObjectBase() 
+        public ERPObjectBase()
             : base()
+        {
+            ClientUID = Guid.Empty;
+        }
+
+        public ERPObjectBase(Guid gUID)
+            : base(gUID)
         {
             ClientUID = Guid.Empty;
         }

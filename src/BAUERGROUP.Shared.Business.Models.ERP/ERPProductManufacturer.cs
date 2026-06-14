@@ -1,7 +1,4 @@
-﻿using BAUERGROUP.Shared.Business.Models.ERP.Bases;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP
 {
