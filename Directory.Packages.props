@@ -16,6 +16,9 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <!-- Required so BAUERGROUP.* sister packages can use a floating version (e.g. 3.*)
+         under Central Package Management — restore then always pulls the current major. -->
+    <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
 
   <ItemGroup Label="Build &amp; Source Link">
@@ -31,8 +34,15 @@
 
   <ItemGroup Label="BAUER GROUP Shared Plattform (sister framework via NuGet, consumed by domain satellites)">
     <!-- Foundational primitives (IndependentImage, etc.). The base Business.Models package
-         does NOT reference this; only the domain satellites (Shipping/ERP/...) may. -->
-    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="[3.0.0,4.0.0)" />
+         does NOT reference this; only the domain satellites (Shipping/ERP/...) may.
+
+         Policy: BAUERGROUP.* sister packages float to the latest within the current major
+         (3.*) so restore always pulls the current version — NuGet resolves the LOWEST
+         version of a range, so a range like [3.0.0,4.0.0) would have pinned consumers to
+         3.0.0. The major is capped to avoid auto-taking a breaking next major. Dependabot
+         is told to ignore BAUERGROUP.* (see .github/dependabot.yml) so it does not churn
+         these with floor bumps. -->
+    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="3.*" />
   </ItemGroup>
 
   <ItemGroup Label="Testing (test projects arrive in step 2)">

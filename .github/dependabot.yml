@@ -20,6 +20,11 @@ updates:
     labels:
       - "dependencies"
       - "nuget"
+    ignore:
+      # BAUERGROUP.* sister packages float to the current major (e.g. 3.*) in
+      # Directory.Packages.props — restore always pulls the latest. Don't let
+      # Dependabot churn them with floor bumps.
+      - dependency-name: "BAUERGROUP.*"
     groups:
       microsoft:
         patterns:
