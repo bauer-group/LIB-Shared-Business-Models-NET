@@ -1,24 +1,28 @@
 <Project>
   <!-- ============================================================
-       BAUER GROUP — Shared Business Framework
+       BAUER GROUP — Shared Business Models
        Repository-wide MSBuild defaults. Auto-imported by every csproj.
 
-       Strategic pivot (2026-05-19): dropped ServiceStack as the
-       HTTP/service framework — the current framework runs on pure ASP.NET Core 10 LTS
-       + FastEndpoints (DTO-Pattern). The legacy framework's
-       architectural patterns (plugin system, service discovery,
-       user/role/permission model, observable embedded DBs, multi-host
-       topology) are PRESERVED — see docs/MIGRATION.md.
+       Scope: pure POCO domain models. No runtime dependencies beyond
+       the .NET BCL — no ASP.NET Core, no storage/messaging/auth stacks.
+       This repo is the dependency-free foundation other BAUER GROUP
+       Business libraries build on:
+
+         BAUERGROUP.Shared.Business.Models           (base — this package)
+         BAUERGROUP.Shared.Business.Models.Shipping
+         BAUERGROUP.Shared.Business.Models.ERP       (-> Models + Shipping)
+         BAUERGROUP.Shared.Business.Models.CRM
+         BAUERGROUP.Shared.Business.Models.DMS
        ============================================================ -->
   <PropertyGroup Label="Identity">
     <Authors>BAUER GROUP Development Team</Authors>
     <Company>BAUER GROUP</Company>
     <Copyright>Copyright © 2006 - $([System.DateTime]::UtcNow.ToString("yyyy")) BAUER GROUP</Copyright>
-    <Product>BAUER GROUP Shared Business Framework</Product>
-    <Description>Enterprise business framework for BAUER GROUP. Cross-platform service hosting (ASP.NET Core 10 + FastEndpoints), plugin system, modern authentication (JWT/OIDC/Bearer/Passkeys), service discovery, telemetry, pluggable messaging (MassTransit/RabbitMQ + MQTTnet) and storage (MongoDB/InfluxDB/Redis-FusionCache + Elastic/OpenSearch/Meilisearch) abstractions.</Description>
+    <Product>BAUER GROUP Shared Business Models</Product>
+    <Description>Dependency-free POCO domain models for the BAUER GROUP Shared Business ecosystem: the marker interfaces IBusiness / IBusinessObject and the abstract base classes Business / BusinessObject (stable UID identity + change timestamp). Pure BCL surface, multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageTags>bauer-group;enterprise;business;services;plugin-system;servicediscovery;telemetry;fastendpoints;aspnetcore;dotnet</PackageTags>
-    <Version>2.5.0</Version>
+    <PackageTags>bauer-group;business;models;poco;domain;dto;netstandard</PackageTags>
+    <Version>0.1.0</Version>
   </PropertyGroup>
   <PropertyGroup Label="Versioning">
     <!-- semantic-release-dotnet rewrites <Version> above on every release.
@@ -31,25 +35,14 @@
   </PropertyGroup>
   <PropertyGroup Label="LanguageRules">
     <!--
-      Target Frameworks set per-project — driven by what the package needs:
-      - Pure-managed libraries (Models, Common, Discovery, Messaging,
-        Messaging.MessageBus, Messaging.MQTT, Storage, Storage.Mongo,
-        Storage.Influx, Storage.Redis, Storage.Embedded,
-        Storage.Search.Elasticsearch, Storage.Search.Meilisearch,
-        Storage.WebDAV, Client, Authentication) target: net10.0;net8.0;netstandard2.0
-      - Common.Validation (FluentValidation 12 dropped netstandard2.0)
-        target: net10.0;net8.0
-      - Authentication.Server (ASP.NET Core dependency: OpenIddict + JwtBearer + Fido2)
-        target: net10.0;net8.0
-      - ASP.NET Core hosts + server framework (Server.Common, Server.Extensions,
-        Server.Discovery, Server.Telemetry, Plugin.*, Server.Service, Server.Web,
-        Server.*.Service host EXEs) target: net10.0;net8.0
-      - Test UI (WPF): net10.0-windows;net8.0-windows
+      Every project in this repo multi-targets net10.0;net8.0;netstandard2.0.
+      netstandard2.0 keeps the models consumable from .NET Framework 4.6.2+,
+      Unity, Xamarin and other legacy hosts — PolySharp backfills the modern
+      C# language features (init accessors, required members, etc.) there.
     -->
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors/>
     <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
@@ -60,21 +53,18 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!--
       Global NoWarn:
-        CS1573, CS1574, CS1591 — XML doc completeness; not all internals require docs
-        CA1716 — reserved-name flags on legacy domain types (User, Role, Group etc.)
-        CA1859 — interface-vs-concrete return type; we intentionally expose interfaces
+        CS1573, CS1574, CS1591 — XML doc completeness; self-evident model
+                                 properties don't all need prose docs
+        CA1716 — the "Shared" segment of every BAUERGROUP.Shared.* namespace
+                 collides with the VB.NET 'Shared' keyword; this naming
+                 convention is fixed company-wide and will not change
         IDE0011 — single-line if without braces; compact guard clauses allowed
         IDE0040 — explicit access modifier on interface members; public is implicit
         NETSDK1206 — multi-target packaging warning
-
-        CA1848 (LoggerMessage delegates) is ENFORCED globally: the per-request hot path
-        uses a source-generated logger. Low-frequency bootstrap / lifecycle / error logs
-        opt out with a file-level "#pragma warning disable CA1848" + justification.
     -->
-    <NoWarn>$(NoWarn);CS1573;CS1574;CS1591;CA1510;CA1711;CA1716;CA1720;CA1725;CA1859;CA1873;IDE0011;IDE0040;NETSDK1206;RCS1194</NoWarn>
+    <NoWarn>$(NoWarn);CS1573;CS1574;CS1591;CA1716;IDE0011;IDE0040;NETSDK1206</NoWarn>
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true' or '$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
-    <InvariantGlobalization>true</InvariantGlobalization>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
   <PropertyGroup Label="Output">
@@ -86,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Packaging">
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Business-NET</RepositoryUrl>
+    <RepositoryUrl>https://github.com/bauer-group/LIB-Shared-Business-Models-NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>

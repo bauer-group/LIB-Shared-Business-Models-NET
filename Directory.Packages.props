@@ -1,13 +1,15 @@
 <Project>
   <!-- ============================================================
-       BAUER GROUP — Shared Business Framework
+       BAUER GROUP — Shared Business Models
        Central Package Management. Projects reference packages WITHOUT
        a Version attribute; versions live here. Transitive pinning is
        enabled so indirect deps cannot drift independently.
        Ref: https://learn.microsoft.com/nuget/consume-packages/central-package-management
 
-       Stand 2026-05-19. Alle Versionen gegen nuget.org/v3-flatcontainer
-       verifiziert (latest stable, non-prerelease).
+       This is a dependency-free POCO repo: the only packages are the
+       build/analyzer toolchain (PrivateAssets="All", never flow to
+       consumers) and the test stack. The models themselves ship with
+       zero runtime NuGet dependencies.
        ============================================================ -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
@@ -25,210 +27,16 @@
     <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
   </ItemGroup>
 
-  <ItemGroup Label="BAUER GROUP Shared Plattform (sister framework via NuGet)">
-    <PackageVersion Include="BAUERGROUP.Shared.Core" Version="[3.0.0,4.0.0)" />
-    <PackageVersion Include="BAUERGROUP.Shared.Data" Version="[3.0.0,4.0.0)" />
-    <PackageVersion Include="BAUERGROUP.Shared.API" Version="[3.0.0,4.0.0)" />
-    <PackageVersion Include="BAUERGROUP.Shared.Cloud" Version="[3.0.0,4.0.0)" />
-  </ItemGroup>
-
-  <ItemGroup Label="ASP.NET Core 10 LTS (replaces ServiceStack as HTTP/service framework)">
-    <!-- Microsoft.AspNetCore.* core packages ship inside the ASP.NET Core shared framework.
-         Consume them via <FrameworkReference Include="Microsoft.AspNetCore.App" /> in the
-         project csproj rather than via central PackageVersion entries — pinning a single
-         version (e.g. 10.0.8) here would break net8 multi-targeting because that version
-         only supports net10. The shared-framework path picks the right per-TFM version
-         automatically. Same applies to Microsoft.AspNetCore.Authentication.JwtBearer /
-         OpenIdConnect / Negotiate / DataProtection / Mvc.Testing / Server.IIS / Server.IISIntegration. -->
-    <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="FastEndpoints (DTO/REPR pattern — ServiceStack-style on ASP.NET Core)">
-    <PackageVersion Include="FastEndpoints" Version="8.1.0" />
-    <PackageVersion Include="FastEndpoints.Swagger" Version="8.1.0" />
-    <PackageVersion Include="FastEndpoints.Security" Version="8.1.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="OpenAPI UI (mandatory openapi.json on every host)">
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.14.14" />
-  </ItemGroup>
-
-  <ItemGroup Label="API Versioning">
-    <PackageVersion Include="Asp.Versioning.Http" Version="10.0.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="Authentication / Authorization (modern + classic)">
-    <!-- Microsoft.AspNetCore.Authentication.* ship in the ASP.NET Core shared framework
-         (see comment above) — consume via FrameworkReference, not central PackageVersion. -->
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.18.0" />
-    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.18.0" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
-    <!-- OpenIddict — full OAuth2/OIDC auth server with built-in account lockout,
-         token introspection, refresh tokens, MongoDB store (FerretDB-compatible). -->
-    <PackageVersion Include="OpenIddict.AspNetCore" Version="7.5.0" />
-    <PackageVersion Include="OpenIddict.MongoDb" Version="7.5.0" />
-    <PackageVersion Include="OpenIddict.Validation.AspNetCore" Version="7.5.0" />
-    <!-- WebAuthn / FIDO2 / Passkeys — modern passwordless auth. -->
-    <PackageVersion Include="Fido2" Version="4.0.1" />
-    <!-- Social OAuth providers (most common; add more from AspNet.Security.OAuth.Providers as needed). -->
-    <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="10.0.0" />
-    <PackageVersion Include="AspNet.Security.OAuth.Microsoft" Version="10.0.0" />
-    <!--
-      Password hashing: BCL Rfc2898DeriveBytes (PBKDF2) from System.Security.Cryptography.
-      No external NuGet needed — PBKDF2-SHA512 with high iteration count is NIST SP 800-132
-      approved, FIPS 140-3 compliant, and listed by OWASP 2023 as acceptable when Argon2/scrypt
-      are unavailable. Maintenance is part of the .NET BCL itself. Avoiding unmaintained
-      third-party hashing libs is a deliberate framework security decision.
-    -->
-  </ItemGroup>
-
-  <ItemGroup Label="Microsoft.Extensions (Hosting / DI / Configuration / Logging / Options / HealthChecks)">
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.9" />
-    <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
-    <!-- Distributed output-cache store (read-heavy GET endpoints) is per-TFM-versioned
-         (net8 vs net10 ship separate majors) — referenced via VersionOverride in
-         Server.Common.csproj, not pinned centrally. In-memory is the default when no
-         Redis connection is configured. -->
-
-  </ItemGroup>
-
-  <ItemGroup Label="Observability — Serilog + OpenTelemetry">
-    <PackageVersion Include="Serilog" Version="4.3.1" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
-    <PackageVersion Include="Serilog.Extensions.Hosting" Version="10.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
-    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-    <PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
-    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
-    <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
-    <PackageVersion Include="OpenTelemetry" Version="1.15.3" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="Validation">
-    <PackageVersion Include="FluentValidation" Version="12.1.1" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="Real-time (SignalR client)">
-    <!-- SignalR .NET client for the real-time events hub. Supports net8/net10/netstandard2.0,
-         matching the Client TFMs. The server-side hub ships in the ASP.NET Core framework;
-         the Redis backplane is per-TFM-versioned (see Server.Common.csproj). -->
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.9" />
-  </ItemGroup>
-
-  <ItemGroup Label="Resilience (Polly v8 via Microsoft.Extensions.Http.Resilience)">
-    <!-- Standard resilience handler for the HttpClient-based service clients:
-         retry (exp. backoff + jitter), circuit breaker, total + per-attempt timeout,
-         concurrency limiter. Supports net8/net10/netstandard2.0 (matches Client TFMs). -->
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.7.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="Messaging: MQTT (MQTTnet 5.x; ManagedClient consolidated into core package)">
-    <PackageVersion Include="MQTTnet" Version="5.1.0.1559" />
-    <PackageVersion Include="MQTTnet.Server" Version="5.1.0.1559" />
-  </ItemGroup>
-
-  <ItemGroup Label="Messaging: MassTransit + RabbitMQ (command / event / pub-sub)">
-    <!-- MassTransit IS the abstraction; RabbitMQ.Client comes in transitively via MassTransit.RabbitMQ. -->
-    <PackageVersion Include="MassTransit" Version="9.1.1" />
-    <PackageVersion Include="MassTransit.RabbitMQ" Version="9.1.1" />
-    <!-- Transactional outbox/inbox store (exactly-once delivery). netstandard2.1+ only,
-         so it is referenced for net8/net10 legs of Messaging.MessageBus, not netstandard2.0. -->
-    <PackageVersion Include="MassTransit.MongoDb" Version="9.1.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: LiteDB (embedded, used by Common.Database for the observable embedded DB pattern)">
-    <PackageVersion Include="LiteDB" Version="5.0.21" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: MongoDB (FerretDB-compatible via wire protocol)">
-    <PackageVersion Include="MongoDB.Driver" Version="3.8.1" />
-    <PackageVersion Include="MongoDB.Bson" Version="3.8.1" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: InfluxDB (timeseries)">
-    <PackageVersion Include="InfluxDB.Client" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: Redis (two-layer cache stack)">
-    <!--
-      FusionCache for high-level caching (multi-level, stampede protection, fail-safe).
-      StackExchange.Redis for direct access to Redis-native structures
-      (Hash / List / Set / SortedSet / atomic INCR/DECR) that FusionCache does not expose.
-      Backplane wires invalidation through the same Redis instance.
-    -->
-    <PackageVersion Include="StackExchange.Redis" Version="2.13.1" />
-    <PackageVersion Include="ZiggyCreatures.FusionCache" Version="2.6.0" />
-    <PackageVersion Include="ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis" Version="2.6.0" />
-    <PackageVersion Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.6.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.9" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: WebDAV remote filesystem">
-    <PackageVersion Include="WebDav.Client" Version="2.9.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: S3-compatible object store (AWS S3, MinIO, Cloudflare R2, Backblaze B2, Wasabi, DO Spaces)">
-    <PackageVersion Include="AWSSDK.S3" Version="4.0.24.3" />
-  </ItemGroup>
-
-  <ItemGroup Label="Storage: Full-text search (Elastic / OpenSearch + Meilisearch)">
-    <!-- Elastic.Clients.Elasticsearch 9.x is the official .NET client and works against
-         both Elasticsearch AND OpenSearch (skip product check for OpenSearch). -->
-    <PackageVersion Include="Elastic.Clients.Elasticsearch" Version="9.4.0" />
-    <!-- Meilisearch — lightweight modern search engine. -->
-    <PackageVersion Include="Meilisearch" Version="0.18.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="netstandard2.0 polyfills (used via VersionOverride on specific projects)">
-    <PackageVersion Include="System.Text.Json" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.9" />
-    <PackageVersion Include="System.Collections.Immutable" Version="10.0.5" />
-  </ItemGroup>
-
-  <ItemGroup Label="Testing">
+  <ItemGroup Label="Testing (test projects arrive in step 2)">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <!-- FluentAssertions >= 8.0 has a commercial license (Xceed). 7.2.0 is the last
          Apache-2.0 version; AwesomeAssertions (community fork) is drop-in-compatible. -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
-    <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="coverlet.collector" Version="10.0.0" />
-    <PackageVersion Include="Bogus" Version="35.6.5" />
-    <PackageVersion Include="Testcontainers" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.MongoDb" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.RabbitMq" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.Redis" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.Elasticsearch" Version="4.12.0" />
-    <PackageVersion Include="Testcontainers.Minio" Version="4.12.0" />
-    <PackageVersion Include="MassTransit.TestFramework" Version="9.1.1" />
-    <!-- Architecture tests — enforces the dependency DAG (layering, client/server split). -->
+    <!-- Architecture tests — enforces the model dependency DAG once the satellite
+         packages land (e.g. ERP -> Models + Shipping) and keeps the models POCO-pure. -->
     <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
   </ItemGroup>
 </Project>

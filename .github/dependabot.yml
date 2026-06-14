@@ -25,32 +25,16 @@ updates:
         patterns:
           - "Microsoft.*"
           - "System.*"
-      servicestack:
+      analyzers:
         patterns:
-          - "ServiceStack*"
-      messaging:
-        patterns:
-          - "MQTTnet*"
-          - "RabbitMQ.Client*"
-      storage:
-        patterns:
-          - "MongoDB.*"
-          - "InfluxDB.*"
-          - "StackExchange.Redis*"
-      auth:
-        patterns:
-          - "Microsoft.IdentityModel.*"
-          - "System.IdentityModel.*"
+          - "Roslynator.*"
+          - "PolySharp"
+          - "NetArchTest.*"
       testing:
         patterns:
           - "xunit*"
           - "FluentAssertions*"
           - "coverlet*"
-          - "Moq*"
-          - "Testcontainers*"
-      bauergroup:
-        patterns:
-          - "BAUERGROUP.*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
