@@ -1,3 +1,10 @@
+## [2.1.0](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v2.0.0...v2.1.0) (2026-06-14)
+
+### 🚀 Features
+
+* **crm:** added the CRM domain model rooted on the ERP ([f4d18c7](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/f4d18c7c95f2c51dda875674019a142ca13a93e0))
+* **dms:** added the DMS domain model rooted on the ERP ([5d793da](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/5d793da217cd85a644b5af34215c69c0ff598b9b))
+
 ## [2.0.0](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v1.0.0...v2.0.0) (2026-06-14)
 
 ### ⚠ BREAKING CHANGES
