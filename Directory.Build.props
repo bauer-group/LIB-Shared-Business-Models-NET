@@ -9,10 +9,10 @@
        (see docs/ARCHITECTURE.md). The package family:
 
          BAUERGROUP.Shared.Business.Models           (base — 0 deps)
-         BAUERGROUP.Shared.Business.Models.Shipping  (-> Core)
+         BAUERGROUP.Shared.Business.Models.Shipping  (-> Models + Core)
          BAUERGROUP.Shared.Business.Models.ERP       (-> Models + Shipping + Core)
-         BAUERGROUP.Shared.Business.Models.CRM       (-> Models)
-         BAUERGROUP.Shared.Business.Models.DMS       (-> Models)
+         BAUERGROUP.Shared.Business.Models.CRM       (-> ERP; subsidiary of the ERP)
+         BAUERGROUP.Shared.Business.Models.DMS       (-> ERP; subsidiary of the ERP)
        ============================================================ -->
   <PropertyGroup Label="Identity">
     <Authors>BAUER GROUP Development Team</Authors>

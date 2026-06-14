@@ -8,38 +8,48 @@ consume these models.
 ## Package family & dependency DAG
 
 ```
-                    BAUERGROUP.Shared.Core   (sister Plattform package, NuGet)
-                              ▲
-                              │ (satellites only)
-   ┌──────────────────────────┼───────────────────────────┐
-   │                          │                            │
-Business.Models.Shipping   Business.Models.ERP        Business.Models.CRM
-   ▲                          │   ▲                    Business.Models.DMS
-   └──────────────────────────┘   │                        │
-                                   ▼                        ▼
-                         BAUERGROUP.Shared.Business.Models  (base — 0 deps)
+        BAUERGROUP.Shared.Core   (sister Plattform package, NuGet)
+                 ▲   ▲                (used by Shipping + ERP, and transitively
+                 │   │                 by the ERP subsidiaries CRM + DMS)
+ Business.Models.CRM   Business.Models.DMS   ← subsidiary systems of the ERP
+                 └─────────┬─────────┘
+                           ▼
+                 Business.Models.ERP        ← Models · Shipping · Core
+                           ▼
+              Business.Models.Shipping       ← Models · Core
+                           ▼
+        BAUERGROUP.Shared.Business.Models    (base — 0 deps)
 ```
 
 | Package | Depends on | TFMs |
 | --- | --- | --- |
 | `BAUERGROUP.Shared.Business.Models` | — | net10.0 · net8.0 · netstandard2.0 |
-| `BAUERGROUP.Shared.Business.Models.Shipping` | Core | net10.0 · net8.0 · netstandard2.0 |
+| `BAUERGROUP.Shared.Business.Models.Shipping` | Models · Core | net10.0 · net8.0 · netstandard2.0 |
 | `BAUERGROUP.Shared.Business.Models.ERP` | Models · Shipping · Core | net10.0 · net8.0 · netstandard2.0 |
-| `BAUERGROUP.Shared.Business.Models.CRM` | Models | net10.0 · net8.0 · netstandard2.0 |
-| `BAUERGROUP.Shared.Business.Models.DMS` | Models | net10.0 · net8.0 · netstandard2.0 |
+| `BAUERGROUP.Shared.Business.Models.CRM` | ERP (→ Shipping · Core · Models) | net10.0 · net8.0 · netstandard2.0 |
+| `BAUERGROUP.Shared.Business.Models.DMS` | ERP (→ Shipping · Core · Models) | net10.0 · net8.0 · netstandard2.0 |
 
-The DAG is enforced by NetArchTest architecture tests
-(`tests/BAUERGROUP.Shared.Business.Models.UnitTests/Architecture`): the base
-package must not depend on any satellite or on Core, satellites must not depend
-sideways onto each other.
+CRM and DMS are **subsidiary systems of the ERP** ("Nebensysteme"): they reuse the
+ERP party, address, money, attachment, custom-field and link types as shared base
+classes rather than duplicating them, so they depend on the ERP package. The DAG is
+enforced by NetArchTest architecture tests
+(`tests/BAUERGROUP.Shared.Business.Models.UnitTests/Architecture`): the base package
+must not depend on any satellite or on Core; nothing below ERP (base, Shipping, ERP
+itself) may depend "upward" onto CRM or DMS; and CRM and DMS must not depend sideways
+onto each other.
 
 ## Dependency policy
 
 - The **base** `BAUERGROUP.Shared.Business.Models` package ships **zero** runtime
   NuGet dependencies — pure .NET BCL surface.
-- **Domain satellites** may layer on `BAUERGROUP.Shared.Core` (`[3.0.0,4.0.0)`)
+- **Shipping** and **ERP** may layer on `BAUERGROUP.Shared.Core` (`[3.0.0,4.0.0)`)
   for shared primitives (e.g. `Core.Images.IndependentImage`,
-  `Core.Extensions` helpers). Nothing else is permitted.
+  `Core.Extensions` helpers).
+- **CRM** and **DMS** layer on the **ERP** package (and, transitively, on Shipping,
+  Core and base). They reuse ERP types — `ERPBusinessAssociate`, `ERPAddress`,
+  `ERPCurrency`, `ERPAttachment`, `ERPObjectLink`, `ERPCustomField`, `ERPCodeName` —
+  as base classes, and reference ERP objects (products, documents, parties) loosely
+  by `Guid`. No other dependencies are permitted.
 
 ## Base types
 
@@ -84,10 +94,13 @@ on some legacy ERP types.
   locals (`sName`, `eType`, `gUID`); public property names are clean PascalCase.
   `CA1720`/`CA1716` are suppressed repo-wide to accommodate this (see
   `Directory.Build.props`).
-- **Analyzer strategy:** hand-written packages (base, CRM, DMS) build under the
-  strict bar (`Nullable=enable`, `AnalysisMode=AllEnabledByDefault`,
-  warnings-as-errors). Migrated legacy packages (Shipping, ERP) relax to
-  `Nullable=disable` / `AnalysisLevel=latest-default` / non-fatal warnings so the
-  legacy surface compiles verbatim; hardening is a deliberate later pass — the
-  nullable-enable changeover is fully planned in
+- **Analyzer strategy:** the dependency-free **base** package builds under the strict
+  bar (`Nullable=enable`, `AnalysisMode=AllEnabledByDefault`, warnings-as-errors). The
+  ERP family — **Shipping, ERP** and the ERP subsidiaries **CRM, DMS** — relaxes to
+  `Nullable=disable` / `AnalysisLevel=latest-default` / non-fatal warnings. For Shipping
+  and ERP this lets the migrated legacy surface compile verbatim; CRM and DMS adopt the
+  same profile because they extend those (nullable-oblivious) ERP base types and follow
+  the same POCO/DTO idiom (mutable `List<T>` properties, `byte[]` payloads, ctor
+  initialises every field). Genuine compile errors still fail. Hardening is a deliberate
+  later pass — the nullable-enable changeover is planned in
   [NULLABLE-ENABLE.md](NULLABLE-ENABLE.md).
