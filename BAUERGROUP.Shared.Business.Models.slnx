@@ -13,6 +13,7 @@
   <Folder Name="/Sources/">
     <Project Path="src/BAUERGROUP.Shared.Business.Models/BAUERGROUP.Shared.Business.Models.csproj" />
     <Project Path="src/BAUERGROUP.Shared.Business.Models.Shipping/BAUERGROUP.Shared.Business.Models.Shipping.csproj" />
+    <Project Path="src/BAUERGROUP.Shared.Business.Models.ERP/BAUERGROUP.Shared.Business.Models.ERP.csproj" />
     <Project Path="src/BAUERGROUP.Shared.Business.Models.CRM/BAUERGROUP.Shared.Business.Models.CRM.csproj" />
     <Project Path="src/BAUERGROUP.Shared.Business.Models.DMS/BAUERGROUP.Shared.Business.Models.DMS.csproj" />
   </Folder>
