@@ -15,6 +15,7 @@
     <File Path="docs/ARCHITECTURE.md" />
     <File Path="docs/BUILD.md" />
     <File Path="docs/MIGRATION.md" />
+    <File Path="docs/NULLABLE-ENABLE.md" />
     <File Path="docs/VERSIONING.md" />
   </Folder>
   <Folder Name="/Sources/">

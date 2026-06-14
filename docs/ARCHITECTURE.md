@@ -88,4 +88,6 @@ on some legacy ERP types.
   strict bar (`Nullable=enable`, `AnalysisMode=AllEnabledByDefault`,
   warnings-as-errors). Migrated legacy packages (Shipping, ERP) relax to
   `Nullable=disable` / `AnalysisLevel=latest-default` / non-fatal warnings so the
-  legacy surface compiles verbatim; hardening is a deliberate later pass.
+  legacy surface compiles verbatim; hardening is a deliberate later pass — the
+  nullable-enable changeover is fully planned in
+  [NULLABLE-ENABLE.md](NULLABLE-ENABLE.md).
