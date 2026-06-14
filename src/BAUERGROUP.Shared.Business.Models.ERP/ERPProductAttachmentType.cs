@@ -2,8 +2,12 @@
 
 namespace BAUERGROUP.Shared.Business.Models.ERP
 {
+    /// <summary>
+    /// Category of a file attached to a product.
+    /// </summary>
     public enum ERPProductAttachmentType
     {
+        /// <summary>A file that does not fit the predefined categories.</summary>
         Other = 0,
 
         Datasheet = 10,

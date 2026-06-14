@@ -4,8 +4,13 @@ using System.Globalization;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP
 {
+    /// <summary>
+    /// A language reference holding a display name plus ISO 639-1 (alpha-2) and ISO 639-3
+    /// (alpha-3) codes. Exposes predefined static instances for every ISO language.
+    /// </summary>
     public class ERPLanguage
-    {        
+    {
+        /// <summary>Initialises a language from a display name and ISO 639 alpha-2 / alpha-3 codes.</summary>
         public ERPLanguage(String sName, String sISO2, String sISO3)
         {
             Name = sName;
@@ -13,6 +18,7 @@ namespace BAUERGROUP.Shared.Business.Models.ERP
             ISO3 = sISO3;
         }
 
+        /// <summary>Initialises a copy of another <see cref="ERPLanguage"/>.</summary>
         public ERPLanguage(ERPLanguage oERPLanguage)
         {
             Name = oERPLanguage.Name;
@@ -20,23 +26,31 @@ namespace BAUERGROUP.Shared.Business.Models.ERP
             ISO3 = oERPLanguage.ISO3;
         }
 
+        /// <summary>Initialises a copy of <see cref="German"/> as the default language.</summary>
         public ERPLanguage() :
             this (German)
         {
 
         }
 
+        /// <summary>Display name of the language.</summary>
         public String Name { get; set; }
 
+        /// <summary>ISO 639-1 alpha-2 language code (e.g. <c>de</c>).</summary>
         public String ISO2 { get; set; }
+        /// <summary>ISO 639-3 alpha-3 language code (e.g. <c>deu</c>).</summary>
         public String ISO3 { get; set; }
 
         //Special Definitions
+        /// <summary>The culture-invariant language (<see cref="CultureInfo.InvariantCulture"/>).</summary>
         public readonly static ERPLanguage Invariant = CultureInfo.InvariantCulture.FromCultureInfo();
+        /// <summary>The language derived from the current runtime culture (<see cref="CultureInfo.CurrentCulture"/>).</summary>
         public readonly static ERPLanguage Current = CultureInfo.CurrentCulture.FromCultureInfo();
 
-        //Static Definitions - Primary        
+        //Static Definitions - Primary
+        /// <summary>Predefined instance for German.</summary>
         public readonly static ERPLanguage German = new ERPLanguage("German", "de", "deu");
+        /// <summary>Predefined instance for English.</summary>
         public readonly static ERPLanguage English = new ERPLanguage("English", "en", "eng");
 
         //Static Definitions - Secondary

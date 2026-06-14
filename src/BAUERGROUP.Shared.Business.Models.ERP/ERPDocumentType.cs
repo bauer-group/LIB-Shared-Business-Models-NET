@@ -2,6 +2,11 @@
 
 namespace BAUERGROUP.Shared.Business.Models.ERP
 {
+    /// <summary>
+    /// Business type of an <see cref="ERPDocument"/>. Values are grouped by direction:
+    /// customer-facing (100–460), supplier-facing (600–700), with ranges reserved for
+    /// production and warehouse documents.
+    /// </summary>
     public enum ERPDocumentType
     {
         //Customer

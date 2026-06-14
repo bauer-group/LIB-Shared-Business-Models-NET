@@ -3,9 +3,14 @@ using System.ComponentModel;
 
 namespace BAUERGROUP.Shared.Business.Models.Shipping
 {
+    /// <summary>
+    /// Carrier catalogue of shipping products (parcels, letters, commodity post, cargo). The
+    /// <see cref="DescriptionAttribute"/> on each member carries the German product label.
+    /// </summary>
     public enum FreightCarrierProducts
     {
         //Parcels
+        /// <summary>Default product — standard parcel shipping.</summary>
         [Description("Standardversand (Paket)")]
         Default = 0,
 
@@ -159,6 +164,7 @@ namespace BAUERGROUP.Shared.Business.Models.Shipping
         PalletExpress = 201,
 
         //Other
+        /// <summary>A shipping product that does not fit the predefined catalogue.</summary>
         [Description("Andere Versandart")]
         Other = 1000
     }

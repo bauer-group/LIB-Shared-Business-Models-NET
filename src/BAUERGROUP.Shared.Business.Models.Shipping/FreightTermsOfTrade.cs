@@ -3,6 +3,10 @@ using System.ComponentModel;
 
 namespace BAUERGROUP.Shared.Business.Models.Shipping
 {
+    /// <summary>
+    /// Incoterms (terms of trade) governing the division of cost and risk between seller and buyer.
+    /// The <see cref="DescriptionAttribute"/> on each member spells out the Incoterm.
+    /// </summary>
     public enum FreightTermsOfTrade
     {
         [Description("EXW (Ex Works)")]

@@ -4,13 +4,19 @@ using BAUERGROUP.Shared.Core.Extensions;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
 {
+    /// <summary>
+    /// Extension helpers for <see cref="ERPAddress"/>.
+    /// </summary>
     public static class ERPAddressExtensions
     {
+        /// <summary>Trims whitespace from every public string property of the address, in place.</summary>
         public static void Trim(this ERPAddress erpAddress)
         {
             erpAddress.TrimPublicStringProperties();
         }
 
+        /// <summary>Projects an <see cref="ERPAddress"/> onto a shipping <see cref="ParcelAddress"/>.</summary>
+        /// <returns>A new <see cref="ParcelAddress"/> populated from the source address, with its string properties trimmed.</returns>
         public static ParcelAddress FromERPAddress(this ERPAddress erpAddress)
         {
             ParcelAddress pa = new ParcelAddress();
@@ -37,6 +43,8 @@ namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
             return pa;
         }
 
+        /// <summary>Projects a shipping <see cref="ParcelAddress"/> onto an <see cref="ERPAddress"/>.</summary>
+        /// <returns>A new <see cref="ERPAddress"/> populated from the source address, with its string properties trimmed.</returns>
         public static ERPAddress ToERPAddress(this ParcelAddress parcelAddress)
         {
             ERPAddress ea = new ERPAddress();
@@ -63,6 +71,8 @@ namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
             return ea;
         }
 
+        /// <summary>Copies the address fields from a shipping <see cref="ParcelAddress"/> into an existing <see cref="ERPAddress"/>, in place.</summary>
+        /// <param name="erpAddress">The target address to update.</param>
         public static void UpdateERPAddress(this ParcelAddress parcelAddress, ref ERPAddress erpAddress)
         {
             erpAddress.Reference = parcelAddress.Reference;

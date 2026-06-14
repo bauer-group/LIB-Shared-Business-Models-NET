@@ -3,13 +3,21 @@ using BAUERGROUP.Shared.Core.Extensions;
 
 namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
 {
+    /// <summary>
+    /// Extension helpers for <see cref="ERPPicture"/>.
+    /// </summary>
     public static class ERPPictureExtensions
     {
+        /// <summary>Trims whitespace from every public string property of the picture, in place.</summary>
         public static void Trim(this ERPPicture erpPicture)
         {
             erpPicture.TrimPublicStringProperties();
         }
 
+        /// <summary>Populates an <see cref="ERPPicture"/> from a file on disk: name, size/timestamps, file URI and MIME type derived from the extension.</summary>
+        /// <param name="imageFilePath">Path to the source image file.</param>
+        /// <returns>The same <paramref name="erpPicture"/> instance, now populated from the file.</returns>
+        /// <exception cref="FileNotFoundException">Thrown when <paramref name="imageFilePath"/> is empty or the file does not exist.</exception>
         public static ERPPicture FromFile(this ERPPicture erpPicture, String imageFilePath)
         {
             if (string.IsNullOrEmpty(imageFilePath) || !File.Exists(imageFilePath))
@@ -31,11 +39,15 @@ namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
             return erpPicture;
         }
 
+        /// <summary>Creates a fresh <see cref="ERPPicture"/> and populates it from a file on disk.</summary>
+        /// <param name="imageFilePath">Path to the source image file.</param>
+        /// <returns>A new <see cref="ERPPicture"/> populated from the file.</returns>
         public static ERPPicture FromFile(String imageFilePath)
         {
             return FromFile(new ERPPicture(), imageFilePath);
         }
 
+        /// <summary>Maps a file extension to its image MIME type, defaulting to <c>application/octet-stream</c> for unknown extensions.</summary>
         private static string GetMimeTypeFromExtension(String extension)
         {
             switch (extension.ToLower())
@@ -62,6 +74,8 @@ namespace BAUERGROUP.Shared.Business.Models.ERP.Extensions
             }
         }
 
+        /// <summary>Projects an <see cref="ERPPicture"/> onto an <see cref="ERPProductPicture"/>, enabling preview, print and online usage.</summary>
+        /// <returns>A new <see cref="ERPProductPicture"/> populated from the picture.</returns>
         public static ERPProductPicture FromERPPicture(this ERPPicture erpPicture)
         {
             return new ERPProductPicture
