@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnablePackageValidation>false</EnablePackageValidation>
+    <!-- Test code: pragmatic analysis (xUnit test names use underscores; no XML docs). -->
+    <Nullable>enable</Nullable>
+    <AnalysisLevel>latest-default</AnalysisLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CA1707;CA1034;CA1812</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BAUERGROUP.Shared.Business.Models\BAUERGROUP.Shared.Business.Models.csproj" />
+    <ProjectReference Include="..\..\src\BAUERGROUP.Shared.Business.Models.Shipping\BAUERGROUP.Shared.Business.Models.Shipping.csproj" />
+    <ProjectReference Include="..\..\src\BAUERGROUP.Shared.Business.Models.ERP\BAUERGROUP.Shared.Business.Models.ERP.csproj" />
+    <ProjectReference Include="..\..\src\BAUERGROUP.Shared.Business.Models.CRM\BAUERGROUP.Shared.Business.Models.CRM.csproj" />
+    <ProjectReference Include="..\..\src\BAUERGROUP.Shared.Business.Models.DMS\BAUERGROUP.Shared.Business.Models.DMS.csproj" />
+  </ItemGroup>
+
+</Project>
