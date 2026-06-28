@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Testing (test projects arrive in step 2)">
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <!-- FluentAssertions >= 8.0 has a commercial license (Xceed). 7.2.0 is the last
