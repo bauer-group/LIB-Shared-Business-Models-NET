@@ -22,7 +22,7 @@
     <Description>Dependency-free POCO domain models for the BAUER GROUP Shared Business ecosystem: the marker interfaces IBusiness / IBusinessObject and the abstract base classes Business / BusinessObject (stable UID identity + change timestamp). Pure BCL surface, multi-targeted for net10.0, net8.0 and netstandard2.0.</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageTags>bauer-group;business;models;poco;domain;dto;netstandard</PackageTags>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
   </PropertyGroup>
   <PropertyGroup Label="Versioning">
     <!-- semantic-release-dotnet rewrites the Version element above on every release.

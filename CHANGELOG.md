@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v2.1.0...v2.2.0) (2026-07-07)
+
+### 🚀 Features
+
+* **models:** added ITenantScoped for tenancy ([5150053](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/5150053a155ecdb0c13f562a2d80a976ee486091))
+
 ## [2.1.0](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v2.0.0...v2.1.0) (2026-06-14)
 
 ### 🚀 Features
