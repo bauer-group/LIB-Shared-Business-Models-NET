@@ -8,4 +8,5 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// </summary>
 public abstract class Business : IBusiness
 {
+    
 }

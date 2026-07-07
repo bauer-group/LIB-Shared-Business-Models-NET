@@ -12,4 +12,5 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// </remarks>
 public interface IBusiness
 {
+    
 }
