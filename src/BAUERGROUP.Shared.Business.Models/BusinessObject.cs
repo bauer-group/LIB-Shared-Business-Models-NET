@@ -5,7 +5,7 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// <summary>
 /// Abstract base for business entities with a stable identity (<see cref="UID"/>)
 /// and a change timestamp (<see cref="Changed"/>). Implements
-/// <see cref="IBusinessObject"/>.
+/// <see cref="IBusinessObject"/> and <see cref="ITenantScoped"/>.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -21,7 +21,7 @@ namespace BAUERGROUP.Shared.Business.Models;
 /// moment of mutation. Persistence layers should update it before each save.
 /// </para>
 /// </remarks>
-public abstract class BusinessObject : Business, IBusinessObject
+public abstract class BusinessObject : Business, IBusinessObject, ITenantScoped
 {
     /// <summary>
     /// Initialises a new instance with an auto-generated <see cref="UID"/> and a
@@ -50,4 +50,12 @@ public abstract class BusinessObject : Business, IBusinessObject
 
     /// <inheritdoc />
     public DateTime Changed { get; set; } = DateTime.UtcNow;
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// Defaults to <see langword="null"/> (not tenant-scoped). The persistence
+    /// layer stamps it from the ambient tenant context on write when a tenant is
+    /// active; it is otherwise left untouched.
+    /// </remarks>
+    public Guid? TenantUID { get; set; }
 }
