@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Build &amp; Source Link">
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.303" />
     <PackageVersion Include="PolySharp" Version="1.16.0" />
   </ItemGroup>
 
