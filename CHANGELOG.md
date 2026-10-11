@@ -1,3 +1,20 @@
+# Changelog
+
+All notable changes to this project are documented here. This file is maintained
+automatically by [semantic-release](https://github.com/semantic-release/semantic-release)
+on every release to `main`.
+
+## [2.2.1](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v2.2.0...v2.2.1) (2026-10-11)
+
+### 🐛 Bug Fixes
+
+* **ci:** added the missing permissions block ([73d80e2](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/73d80e232ea318c4efb5f18e062868b457b29a7b))
+
+### 🔧 Maintenance
+
+* **ci:** removed issue AI summary workflow ([746ac0c](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/746ac0c235e45735224402e194174e286019fea3)), references [bauer-group/automation-templates#105](https://github.com/bauer-group/automation-templates/issues/105)
+* **ci:** removed redundant teams notification ([1f0b4d3](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/commit/1f0b4d34f3e6bcd7619d426545112525d572519d))
+
 ## [2.2.0](https://github.com/bauer-group/LIB-Shared-Business-Models-NET/compare/v2.1.0...v2.2.0) (2026-07-07)
 
 ### 🚀 Features
