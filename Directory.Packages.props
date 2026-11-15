@@ -23,13 +23,13 @@
 
   <ItemGroup Label="Build &amp; Source Link">
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.303" />
-    <PackageVersion Include="PolySharp" Version="1.16.0" />
+    <PackageVersion Include="PolySharp" Version="1.17.1" />
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.301" />
     <PackageVersion Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="4.14.0" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup Label="BAUER GROUP Shared Plattform (sister framework via NuGet, consumed by domain satellites)">
