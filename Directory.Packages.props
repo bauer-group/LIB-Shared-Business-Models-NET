@@ -47,12 +47,22 @@
 
   <ItemGroup Label="Testing (test projects arrive in step 2)">
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
-    <PackageVersion Include="xunit.v3" Version="3.2.2" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
-    <!-- FluentAssertions >= 8.0 has a commercial license (Xceed). 7.2.0 is the last
-         Apache-2.0 version; AwesomeAssertions (community fork) is drop-in-compatible. -->
-    <PackageVersion Include="FluentAssertions" Version="7.2.0" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <!-- xunit.v3 4.x defaults to Microsoft.Testing.Platform 2.x, whose MSBuild
+         target hard-errors under the .NET 10 SDK ("Testing with VSTest target is
+         no longer supported"). The shared dotnet-build.yml in
+         bauer-group/automation-templates drives tests over VSTest (logger,
+         collect and RunSettings arguments MTP does not accept), so this uses
+         xunit.v3.mtp-off: the same release without the MTP dependency, run by
+         the classic adapter in xunit.runner.visualstudio. Same approach as
+         OT-Shared-Industrial-NET. Revert to plain xunit.v3 once the shared
+         workflow can drive MTP. -->
+    <PackageVersion Include="xunit.v3.mtp-off" Version="4.0.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
+    <!-- FluentAssertions >= 8.0 has a commercial license (Xceed). 7.2.x is the last
+         Apache-2.0 line; AwesomeAssertions (community fork) is drop-in-compatible.
+         Dependabot ignores >= 8. -->
+    <PackageVersion Include="FluentAssertions" Version="7.2.2" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.1" />
     <!-- Architecture tests — enforces the model dependency DAG once the satellite
          packages land (e.g. ERP -> Models + Shipping) and keeps the models POCO-pure. -->
     <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
